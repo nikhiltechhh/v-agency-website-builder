@@ -1,16 +1,42 @@
 import { motion } from "framer-motion";
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 60 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut" as const,
+    },
+  },
+};
+
 const WhatWeDo = () => {
   return (
     <section className="py-24 bg-background">
-      <div className="container mx-auto px-4 lg:px-8">
+      <motion.div 
+        className="container mx-auto px-4 lg:px-8"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+      >
         <div className="grid lg:grid-cols-12 gap-12 items-start">
           {/* Left - Big Typography */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            variants={itemVariants}
             className="lg:col-span-4"
           >
             <h2 className="text-6xl md:text-7xl lg:text-8xl font-black leading-none">
@@ -24,14 +50,18 @@ const WhatWeDo = () => {
 
           {/* Center - Digital */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            variants={itemVariants}
             className="lg:col-span-4"
           >
             <h3 className="text-4xl font-bold mb-4">Digital.</h3>
-            <div className="w-16 h-1 gradient-primary mb-6" />
+            <motion.div 
+              className="w-16 h-1 gradient-primary mb-6"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              style={{ transformOrigin: "left" }}
+            />
             <p className="text-xl italic text-muted-foreground mb-6">
               We create super-rich experiences online!
             </p>
@@ -55,10 +85,7 @@ const WhatWeDo = () => {
 
           {/* Right - And More Digital */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            variants={itemVariants}
             className="lg:col-span-4"
           >
             <h3 className="text-4xl font-bold mb-4">
@@ -66,7 +93,14 @@ const WhatWeDo = () => {
               <br />
               Digital.
             </h3>
-            <div className="w-16 h-1 bg-v-red mb-6" />
+            <motion.div 
+              className="w-16 h-1 bg-v-red mb-6"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              style={{ transformOrigin: "left" }}
+            />
             <p className="text-xl italic text-muted-foreground mb-6">
               Marketing brands with care
             </p>
@@ -87,7 +121,7 @@ const WhatWeDo = () => {
             </a>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
