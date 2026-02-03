@@ -14,15 +14,21 @@ const Work = () => {
   const [duration, setDuration] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
 
-  useEffect(() => {
-    // Auto-play video when component mounts
+useEffect(() => {
+  setIsPlaying(false); // Start paused initially
+
+  const timer = setTimeout(() => {
     if (videoRef.current) {
       videoRef.current.play().catch((error) => {
         console.log("Auto-play prevented:", error);
         setIsPlaying(false);
       });
+      setIsPlaying(true);
     }
-  }, []);
+  }, 3000); // 3-second delay
+
+  return () => clearTimeout(timer); // Cleanup if component unmounts early
+}, []);
 
   useEffect(() => {
     const video = videoRef.current;
