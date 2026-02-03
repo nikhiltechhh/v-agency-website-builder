@@ -25,7 +25,7 @@ useEffect(() => {
       });
       setIsPlaying(true);
     }
-  }, 3000); // 3-second delay
+  }, 2000); // 2-second delay
 
   return () => clearTimeout(timer); // Cleanup if component unmounts early
 }, []);
