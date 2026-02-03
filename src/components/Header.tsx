@@ -8,7 +8,8 @@ const navLinks = [
   { name: "About", path: "#about" },
   { name: "Services", path: "#services" },
   { name: "Industries", path: "#industries" },
-  { name: "Work", path: "/work" },
+  { name: "Our Process", path: "/process" },
+  { name: "Portfolio", path: "/work" },
   { name: "Contact", path: "#contact" },
 ];
 
@@ -29,27 +30,39 @@ const Header = () => {
     setIsOpen(false);
   }, [location]);
 
-  const handleNavClick = (path: string) => {
-    if (path.startsWith("#")) {
-      const element = document.querySelector(path);
+  // ✅ FIX: scroll AFTER route + DOM update
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 100);
       }
     }
+  }, [location]);
+
+  const handleNavClick = (path: string) => {
     setIsOpen(false);
   };
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-background/95 backdrop-blur-md shadow-lg" : "bg-transparent"
+        scrolled
+          ? "bg-background/95 backdrop-blur-md shadow-lg"
+          : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <img src={logo} alt="V Agency" className="h-12 w-auto" />
+            <img
+              src="https://i.ibb.co/8nVFNhw8/vl.png"
+              alt="V Agency"
+              className="h-28 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -57,7 +70,7 @@ const Header = () => {
             {navLinks.map((link) => (
               <Link
                 key={link.name}
-                to={link.path.startsWith("#") ? "/" : link.path}
+                to={link.path.startsWith("#") ? "/" + link.path : link.path}
                 onClick={() => handleNavClick(link.path)}
                 className="text-foreground/80 hover:text-foreground font-medium transition-colors relative group"
               >
@@ -69,16 +82,25 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden lg:block">
-            <a
-              href="#contact"
-              onClick={() => handleNavClick("#contact")}
-              className="inline-flex items-center gap-2 px-6 py-3 gradient-primary text-primary-foreground font-semibold rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300"
+            <Link
+              to="/onboard"
+              className="inline-flex items-center gap-2 px-6 py-3 gradient-primary text-primary-foreground font-semibold rounded-full hover:scale-105 transition-all duration-300"
             >
-              Get in Touch
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              Get Onboard
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
               </svg>
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -92,7 +114,11 @@ const Header = () => {
               className="w-7 h-0.5 bg-foreground rounded-full origin-center transition-all"
             />
             <motion.span
-              animate={isOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+              animate={
+                isOpen
+                  ? { opacity: 0, scaleX: 0 }
+                  : { opacity: 1, scaleX: 1 }
+              }
               className="w-4 h-0.5 bg-foreground rounded-full transition-all"
             />
             <motion.span
@@ -121,7 +147,7 @@ const Header = () => {
                   transition={{ delay: index * 0.1 }}
                 >
                   <Link
-                    to={link.path.startsWith("#") ? "/" : link.path}
+                    to={link.path.startsWith("#") ? "/" + link.path : link.path}
                     onClick={() => handleNavClick(link.path)}
                     className="block py-3 text-lg font-medium text-foreground/80 hover:text-foreground transition-colors border-b border-border/50"
                   >
@@ -129,15 +155,16 @@ const Header = () => {
                   </Link>
                 </motion.div>
               ))}
+
               <motion.a
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                href="#contact"
-                onClick={() => handleNavClick("#contact")}
+                href="/onboard"
+                onClick={() => handleNavClick("/onboard")}
                 className="mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 gradient-primary text-primary-foreground font-semibold rounded-full"
               >
-                Get in Touch
+                Get Onboard
               </motion.a>
             </nav>
           </motion.div>

@@ -7,6 +7,8 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import PopupForm from "@/components/PopupForm";
+import Clients from "@/components/Clients";
+import Reviews from "@/components/Reviews";
 
 const Index = () => {
   return (
@@ -17,8 +19,10 @@ const Index = () => {
       <Services />
       <Industries />
       <WhyChooseUs />
-      <Contact />
-      <Footer />
+      <Clients />
+      <Reviews />
+          <Contact />
+          <Footer />
       <PopupForm />
     </div>
   );

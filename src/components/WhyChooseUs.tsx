@@ -9,7 +9,7 @@ const features = [
   },
   {
     icon: Users,
-    title: "90% Customer Satisfaction",
+    title: "100% Customer Satisfaction",
     description: "We work for the satisfaction of the client and support as much as possible from all the different aspects.",
   },
   {
@@ -144,7 +144,7 @@ const WhyChooseUs = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Get Your Marketing Plan
+                Get Your Plan
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
