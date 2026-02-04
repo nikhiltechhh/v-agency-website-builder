@@ -30,19 +30,19 @@ const Header = () => {
     setIsOpen(false);
   }, [location]);
 
-  // ✅ FIX: scroll AFTER route + DOM update
+  // ✅ FIXED: hash scroll works after mobile animation + route change
   useEffect(() => {
-    if (location.hash) {
-      const element = document.querySelector(location.hash);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth" });
-        }, 100);
-      }
-    }
-  }, [location]);
+    if (!location.hash) return;
 
-  const handleNavClick = (path: string) => {
+    const timer = setTimeout(() => {
+      const element = document.querySelector(location.hash);
+      element?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [location.pathname, location.hash]);
+
+  const handleNavClick = () => {
     setIsOpen(false);
   };
 
@@ -71,7 +71,7 @@ const Header = () => {
               <Link
                 key={link.name}
                 to={link.path.startsWith("#") ? "/" + link.path : link.path}
-                onClick={() => handleNavClick(link.path)}
+                onClick={handleNavClick}
                 className="text-foreground/80 hover:text-foreground font-medium transition-colors relative group"
               >
                 {link.name}
@@ -148,7 +148,7 @@ const Header = () => {
                 >
                   <Link
                     to={link.path.startsWith("#") ? "/" + link.path : link.path}
-                    onClick={() => handleNavClick(link.path)}
+                    onClick={handleNavClick}
                     className="block py-3 text-lg font-medium text-foreground/80 hover:text-foreground transition-colors border-b border-border/50"
                   >
                     {link.name}
@@ -156,16 +156,20 @@ const Header = () => {
                 </motion.div>
               ))}
 
-              <motion.a
+              {/* ✅ FIXED MOBILE CTA */}
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                href="/onboard"
-                onClick={() => handleNavClick("/onboard")}
-                className="mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 gradient-primary text-primary-foreground font-semibold rounded-full"
               >
-                Get Onboard
-              </motion.a>
+                <Link
+                  to="/onboard"
+                  onClick={handleNavClick}
+                  className="mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 gradient-primary text-primary-foreground font-semibold rounded-full"
+                >
+                  Get Onboard
+                </Link>
+              </motion.div>
             </nav>
           </motion.div>
         )}
